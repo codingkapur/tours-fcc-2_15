@@ -1,9 +1,19 @@
 import Tour from "./Tour"
 
-function Tours() {
+function Tours({ data }) {
     return (
-        <Tour />
-        // <div>Hello</div>
+        <article>
+            <div className="title">
+                <h2>Our tours</h2>
+            </div>
+            <div>
+                {data.map((tour)=> {
+
+                
+                return <Tour key={tour.id} {...tour}/>
+                })}
+            </div>
+        </article>
     )
 }
 

@@ -1,29 +1,45 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from "react";
 import Tours from "./components/Tours";
 import Loading from "./components/Loading";
 
 function App() {
-  const [loading, setLoading] = useState(false)
-  const [tours, setTours] = useState([])
+  //Set State
+  const [loading, setLoading] = useState(true);
+  const [tours, setTours] = useState([]);
+  //Fetch Data from Api
   const fetchData = async () => {
-  const res = await fetch ('https://course-api.com/react-tours-project')
-  const data = await res.json();
 
-  console.log(data);
+    setLoading(true)
+
+    try {
+
+      const res = await fetch("https://course-api.com/react-tours-project");
+      const data = await res.json();
+      setLoading(false)
+      setTours(data)
+
+    } catch (error){
+
+      setLoading(false)
+      console.log(error)
+      
+    }
   }
-  fetchData()
-  if(loading){
-   return <main><Loading />
-          </main>
-  }
-  else {
+  //Invoke function to fetch data
+  useEffect(()=> {
+    fetchData();
+  }, [])
+  //Display loading
+  if (loading) {
     return (
-      <div className="container">
-        <h1>Hello React : Tours</h1>
-        <Tours />
-      </div>
+      <main>
+        <Loading />
+      </main>
     );
-  }
-  
+  } 
+  //Display main component
+  return <main>
+    <Tours data={tours}/>;
+    </main>
 }
-export default App
+export default App;
